@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Ads Scraper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      width: 300px;
+    }
+
+    .input-field {
+      margin-bottom: 10px;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Search Facebook Ads</h2>
+  <div class="input-field">
+    <input type="text" id="keyword" placeholder="Enter keywords" />
+  </div>
+  <div class="input-field">
+    <input type="text" id="country" placeholder="Enter country" />
+  </div>
+  <button id="searchBtn">Search Ads</button>
+  <div id="results"></div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
