@@ -1,28 +1,37 @@
-document.getElementById('searchBtn').addEventListener('click', function () {
-  const keyword = document.getElementById('keyword').value;
-  const country = document.getElementById('country').value;
+// When the "Fetch Ads" button is clicked
+document.getElementById("fetchAds").addEventListener("click", async () => {
+  const keyword = document.getElementById("keyword").value;
+  const country = document.getElementById("country").value;
+  const resultDiv = document.getElementById("result");
 
-  // Send message to background script to perform the scraping
-  chrome.runtime.sendMessage({ type: 'search', keyword, country }, function (response) {
-    if (response.status === 'success') {
-      displayResults(response.data);
-    } else {
-      alert('Error: ' + response.message);
-    }
-  });
-});
-
-function displayResults(data) {
-  const resultsDiv = document.getElementById('results');
-  resultsDiv.innerHTML = '';
-
-  if (data && data.length > 0) {
-    data.forEach(ad => {
-      const adDiv = document.createElement('div');
-      adDiv.textContent = `Ad: ${ad.text} - Country: ${ad.country}`;
-      resultsDiv.appendChild(adDiv);
-    });
-  } else {
-    resultsDiv.innerHTML = 'No ads found.';
+  // Validate input
+  if (!keyword || !country) {
+    resultDiv.innerHTML = "<p style='color: red;'>Please enter both keyword and country.</p>";
+    return;
   }
-}
+
+  try {
+    // Call your backend API
+    const response = await fetch("http://localhost:5000/fetch-ads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ keyword, country })
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch ads. Please check your backend.");
+    }
+
+    // Parse and display results
+    const data = await response.json();
+    resultDiv.innerHTML = `
+      <h4>Ads Results:</h4>
+      <pre>${JSON.stringify(data, null, 2)}</pre>
+    `;
+  } catch (error) {
+    console.error(error);
+    resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+  }
+});

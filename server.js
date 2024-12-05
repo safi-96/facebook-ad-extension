@@ -10,6 +10,10 @@ app.use(cors());  // Allow cross-origin requests (important for frontend access)
 // Your Facebook API token (ensure this is securely handled)
 const accessToken = 'YOUR_FACEBOOK_API_TOKEN';  // Replace with your actual Facebook API token
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Facebook Ads API server! Use the /fetch-ads endpoint to fetch ads.');
+});
+
 // Endpoint to get Facebook ads based on filters
 app.post('/fetch-ads', async (req, res) => {
   const { keyword, country } = req.body;
